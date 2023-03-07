@@ -25,7 +25,10 @@ repositories {
 
 dependencies {
     implementation 'org.projectlombok:lombok:1.18.22'
-
+    annotationProcessor('org.projectlombok:lombok:1.18.26')
+    testAnnotationProcessor('org.projectlombok:lombok:1.18.26')
+    compileOnly('org.projectlombok:lombok:1.18.26')
+    testCompileOnly('org.projectlombok:lombok:1.18.26')
     // Use the latest Groovy version for Spock testing
     testImplementation 'org.codehaus.groovy:groovy:3.0.13'
 
@@ -63,6 +66,7 @@ jacocoTestReport {
 
 test {
     finalizedBy jacocoTestReport // report is always generated after tests run
+    finalizedBy jacocoTestCoverageVerification
 }
 jacocoTestReport {
     dependsOn test // tests are required to run before generating the report

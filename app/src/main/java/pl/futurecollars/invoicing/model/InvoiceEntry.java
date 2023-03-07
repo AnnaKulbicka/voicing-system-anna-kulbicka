@@ -2,33 +2,20 @@ package pl.futurecollars.invoicing.model;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 public class InvoiceEntry {
     private String description;
-    private double price;
-    private double vatValue;
-    private double vatRate;
+    private BigDecimal price;
+    private BigDecimal vatValue;
+    private Vat vatRate;
 
-    public InvoiceEntry(String description, double price, double vatValue, double vatRate) {
+    public InvoiceEntry(String description, BigDecimal price, BigDecimal vatValue, Vat vatRate) {
         this.description = description;
         this.price = price;
         this.vatValue = vatValue;
         this.vatRate = vatRate;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public void setVatValue(double vatValue) {
-        this.vatValue = vatValue;
-    }
-
-    public void setVatRate(double vatRate) {
-        this.vatRate = vatRate;
-    }
 }

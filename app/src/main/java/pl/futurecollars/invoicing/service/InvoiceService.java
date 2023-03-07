@@ -1,9 +1,10 @@
 package pl.futurecollars.invoicing.service;
 
-import pl.futurecollars.invoicing.memory.Database;
 import pl.futurecollars.invoicing.model.Invoice;
 
 import java.util.List;
+import java.util.Optional;
+import pl.futurecollars.invoicing.db.Database;
 
 public class InvoiceService {
     private Database database;
@@ -12,23 +13,23 @@ public class InvoiceService {
         this.database = database;
     }
 
-    public void saveInvoice(Invoice invoice) {
-        database.save(invoice);
+    public int save(Invoice invoice) {
+        return database.save(invoice);
     }
 
-    public Invoice getInvoiceById(int id) {
+    public Optional<Invoice> getById(int id) {
         return database.getById(id);
     }
 
-    public List<Invoice> getAllInvoices() {
+    public List<Invoice> getAll() {
         return database.getAll();
     }
 
-    public void updateInvoice(int id, Invoice updatedInvoice) {
+    public void update(int id, Invoice updatedInvoice) {
         database.update(id, updatedInvoice);
     }
 
-    public void deleteInvoice(int id) {
+    public void delete(int id) {
         database.delete(id);
     }
 }

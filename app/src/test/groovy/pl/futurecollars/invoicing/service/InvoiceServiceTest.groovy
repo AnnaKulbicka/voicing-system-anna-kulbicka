@@ -1,101 +1,97 @@
 package pl.futurecollars.invoicing.service
 
-import pl.futurecollars.invoicing.model.Company
+import pl.futurecollars.invoicing.db.Database
+
+import pl.futurecollars.invoicing.memory.InMemoryDatabase
 import pl.futurecollars.invoicing.model.Invoice
 import spock.lang.Specification
 
-class InvoiceServiceTest extends Specification {
-    def "should save invoice to database"() {
-        given:
-        def invoice = new Invoice(id: 1, date: LocalDate.now(), from: new Company(), to: new Company(), entries: [])
+import static pl.futurecollars.invoicing.TestHelpers.invoice
 
-        and:
-        def databaseMock = Mock(Database)
-        databaseMock.save(invoice) >> null
+class InvoiceServiceIntegrationTest extends Specification {
 
-        and:
-        def service = new InvoiceService(databaseMock)
+    private InvoiceService service;
+    private List<Invoice> invoices;
 
-        when:
-        service.saveInvoice(invoice)
+    def setup() {
+        Database db = new InMemoryDatabase();
+        service = new InvoiceService(db);
 
-        then:
-        1 * databaseMock.save(invoice)
+        invoices = (1..12).collect { invoice(it) }
     }
 
-    def "should get invoice from database by id"() {
-        given:
-        def invoice = new Invoice(id: 1, date: LocalDate.now(), from: new Company(), to: new Company(), entries: [])
-
-        and:
-        def databaseMock = Mock(Database)
-        databaseMock.getById(1) >> invoice
-
-        and:
-        def service = new InvoiceService(databaseMock)
-
+    def "should save invoices returning sequential id, invoice should have id set to correct value, get by id returns saved invoice"() {
         when:
-        def result = service.getInvoiceById(1)
+        def ids = invoices.collect({ service.save(it) })
 
         then:
-        1 * databaseMock.getById(1)
-        result == invoice
+        ids == (1..invoices.size()).collect()
+        ids.forEach({ assert service.getById(it).isPresent() })
+        ids.forEach({ assert service.getById(it).get().getId() == it })
+        ids.forEach({ assert service.getById(it).get() == invoices.get(it - 1) })
     }
 
-    def "should get all invoices from database"() {
+    def "get by id returns empty optional when there is no invoice with given id"() {
+        expect:
+        !service.getById(1).isPresent()
+    }
+
+    def "get all returns empty collection if there were no invoices"() {
+        expect:
+        service.getAll().isEmpty()
+    }
+
+    def "get all returns all invoices in the database, deleted invoice is not returned"() {
         given:
-        def invoice1 = new Invoice(id: 1, date: LocalDate.now(), from: new Company(), to: new Company(), entries: [])
-        def invoice2 = new Invoice(id: 2, date: LocalDate.now(), from: new Company(), to: new Company(), entries: [])
+        invoices.forEach({ service.save(it) })
 
-        and:
-        def databaseMock = Mock(Database)
-        databaseMock.getAll() >> [invoice1, invoice2]
-
-        and:
-        def service = new InvoiceService(databaseMock)
+        expect:
+        service.getAll().size() == invoices.size()
+        service.getAll().forEach({ assert it == invoices.get(it.getId() - 1) })
 
         when:
-        def result = service.getAllInvoices()
+        service.delete(1)
 
         then:
-        1 * databaseMock.getAll()
-        result == [invoice1, invoice2]
+        service.getAll().size() == invoices.size() - 1
+        service.getAll().forEach({ assert it == invoices.get(it.getId() - 1) })
+        service.getAll().forEach({ assert it.getId() != 1 })
     }
 
-    def "should update invoice in database"() {
+    def "can delete all invoices"() {
         given:
-        def invoice = new Invoice(id: 1, date: LocalDate.now(), from: new Company(), to: new Company(), entries: [])
-        def updatedInvoice = new Invoice(id: 1, date: LocalDate.now(), from: new Company(), to: new Company(), entries: [])
-
-        and:
-        def databaseMock = Mock(Database)
-        databaseMock.update(1, updatedInvoice) >> null
-
-        and:
-        def service = new InvoiceService(databaseMock)
+        invoices.forEach({ service.save(it) })
 
         when:
-        service.updateInvoice(1, updatedInvoice)
+        invoices.forEach({ service.delete(it.getId()) })
 
         then:
-        1 * databaseMock.update(1, updatedInvoice)
+        service.getAll().isEmpty()
     }
 
-    def "should delete invoice from database"() {
+    def "deleting not existing invoice is not causing any error"() {
+        expect:
+        service.delete(123);
+    }
+
+    def "it's possible to update the invoice"() {
         given:
-        def invoice = new Invoice(id: 1, date: LocalDate.now(), from: new Company(), to: new Company(), entries: [])
-
-        and:
-        def databaseMock = Mock(Database)
-        databaseMock.delete(1) >> null
-
-        and:
-        def service = new InvoiceService(databaseMock)
+        int id = service.save(invoices.get(0))
 
         when:
-        service.deleteInvoice(1)
+        service.update(id, invoices.get(1))
 
         then:
-        1 * databaseMock.delete(1)
+        service.getById(id).get() == invoices.get(1)
     }
+
+    def "updating not existing invoice throws exception"() {
+        when:
+        service.update(213, invoices.get(1))
+
+        then:
+        def ex = thrown(IllegalArgumentException)
+        ex.message == "Id 213 does not exist"
+    }
+
 }

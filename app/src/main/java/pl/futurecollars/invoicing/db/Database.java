@@ -1,13 +1,15 @@
-package pl.futurecollars.invoicing.memory;
+package pl.futurecollars.invoicing.db;
 
 import pl.futurecollars.invoicing.model.Invoice;
 
 import java.util.List;
+import java.util.Optional;
+
 
 public interface Database {
-    void save(Invoice invoice);
+    int save(Invoice invoice);
 
-    Invoice getById(int id);
+    Optional<Invoice> getById(int id);
 
     List<Invoice> getAll();
 
