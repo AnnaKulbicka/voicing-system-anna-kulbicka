@@ -2,6 +2,7 @@ package pl.futurecollars.invoicing.model;
 
 import lombok.Data;
 
+
 @Data
 public class Company {
 
@@ -14,4 +15,5 @@ public class Company {
         this.address = address;
         this.name = name;
     }
+
 }

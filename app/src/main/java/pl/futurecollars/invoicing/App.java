@@ -1,21 +1,18 @@
 package pl.futurecollars.invoicing;
 
+ import pl.futurecollars.invoicing.db.Database;
+ import pl.futurecollars.invoicing.memory.InMemoryDatabase;
+ import pl.futurecollars.invoicing.model.Company;
+ import pl.futurecollars.invoicing.model.Invoice;
+ import pl.futurecollars.invoicing.model.InvoiceEntry;
+ import pl.futurecollars.invoicing.model.Vat;
+ import pl.futurecollars.invoicing.service.InvoiceService;
 
-import pl.futurecollars.invoicing.db.Database;
-import pl.futurecollars.invoicing.memory.InMemoryDatabase;
-import pl.futurecollars.invoicing.model.Company;
-import pl.futurecollars.invoicing.model.Invoice;
-import pl.futurecollars.invoicing.model.InvoiceEntry;
-import pl.futurecollars.invoicing.model.Vat;
-import pl.futurecollars.invoicing.service.InvoiceService;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
-
+ import java.math.BigDecimal;
+ import java.time.LocalDate;
+ import java.util.List;
 
 public class App {
-
     public static void main(String[] args) {
         System.out.println(new App().getGreeting());
         Database db = new InMemoryDatabase();
@@ -41,8 +38,3 @@ public class App {
         return "Hello world.";
     }
 }
-
-
-
-
-

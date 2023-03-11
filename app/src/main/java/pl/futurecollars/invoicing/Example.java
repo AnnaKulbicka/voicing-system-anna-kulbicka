@@ -10,8 +10,4 @@ import lombok.Setter;
 public class Example {
     String valueA;
     String valueB;
-
-    public void getValueA() {
-    }
 }
-

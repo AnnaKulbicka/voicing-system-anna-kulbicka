@@ -1,13 +1,14 @@
 package pl.futurecollars.invoicing.service;
 
+import pl.futurecollars.invoicing.db.Database;
 import pl.futurecollars.invoicing.model.Invoice;
 
 import java.util.List;
 import java.util.Optional;
-import pl.futurecollars.invoicing.db.Database;
 
 public class InvoiceService {
-    private Database database;
+
+    private final Database database;
 
     public InvoiceService(Database database) {
         this.database = database;
@@ -32,4 +33,5 @@ public class InvoiceService {
     public void delete(int id) {
         database.delete(id);
     }
+
 }

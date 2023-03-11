@@ -1,10 +1,9 @@
 package pl.futurecollars.invoicing.db;
 
-import pl.futurecollars.invoicing.model.Invoice;
-
 import java.util.List;
 import java.util.Optional;
 
+import pl.futurecollars.invoicing.model.Invoice;
 
 public interface Database {
     int save(Invoice invoice);
@@ -16,4 +15,5 @@ public interface Database {
     void update(int id, Invoice updatedInvoice);
 
     void delete(int id);
+
 }

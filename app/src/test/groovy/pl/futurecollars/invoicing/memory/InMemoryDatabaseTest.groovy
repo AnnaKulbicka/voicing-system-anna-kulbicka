@@ -1,7 +1,6 @@
-package pl.futurecollars.invoicing.db.memory
+package pl.futurecollars.invoicing.memory
 
 import pl.futurecollars.invoicing.db.Database
-import pl.futurecollars.invoicing.memory.InMemoryDatabase
 import pl.futurecollars.invoicing.model.Invoice
 import spock.lang.Specification
 
@@ -13,7 +12,7 @@ class InMemoryDatabaseTest extends Specification {
     private List<Invoice> invoices
 
     def setup() {
-        database = new InMemoryDatabase();
+        database = new InMemoryDatabase()
 
         invoices = (1..12).collect { invoice(it) }
     }
@@ -69,7 +68,7 @@ class InMemoryDatabaseTest extends Specification {
 
     def "deleting not existing invoice is not causing any error"() {
         expect:
-        database.delete(123);
+        database.delete(123)
     }
 
     def "it's possible to update the invoice"() {
