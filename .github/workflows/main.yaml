@@ -11,9 +11,9 @@ name: CI
 
 on:
   push:
-    branches: [lesson*]
+    branches: [task*]
   pull_request:
-    branches: [lesson*]
+    branches: [task*]
 
   workflow_dispatch:
 
