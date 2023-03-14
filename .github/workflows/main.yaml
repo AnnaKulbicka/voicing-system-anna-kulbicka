@@ -28,4 +28,4 @@ jobs:
         with:
           java-version: '14'
       - name: Build with gradle
-        Run: ./gradlew build
+        run: ./gradlew build
