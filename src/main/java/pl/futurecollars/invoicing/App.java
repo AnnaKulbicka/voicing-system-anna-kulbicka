@@ -17,9 +17,8 @@ import pl.futurecollars.invoicing.service.InvoiceService;
 
 public class App {
 
-    public static void main(String[] args) {
-
-      Database db = new InMemoryDatabase();
+  public static void main(String[] args) {
+    Database db = new InMemoryDatabase();
 
     InvoiceService service = new InvoiceService(db);
     Company buyer = new Company("5213861303", "ul. Bukowińska 24d/7 02-703 Warszawa, Polska", "iCode Trust Sp. z o.o");
@@ -38,6 +37,5 @@ public class App {
     service.delete(id);
 
   }
-
 
 }
