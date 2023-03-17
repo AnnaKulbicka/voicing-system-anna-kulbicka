@@ -1,9 +1,10 @@
-
 package pl.futurecollars.invoicing.model;
 
 import java.math.BigDecimal;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @Data
 public class InvoiceEntry {
 

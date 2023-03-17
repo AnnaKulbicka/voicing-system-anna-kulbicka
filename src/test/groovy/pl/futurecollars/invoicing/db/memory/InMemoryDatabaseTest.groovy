@@ -1,10 +1,11 @@
-package pl.futurecollars.invoicing.memory
+package pl.futurecollars.invoicing.db.memory
 
 import pl.futurecollars.invoicing.db.Database
+import pl.futurecollars.invoicing.memory.InMemoryDatabase
 import pl.futurecollars.invoicing.model.Invoice
 import spock.lang.Specification
 
-import static pl.futurecollars.invoicing.TestHelpers.invoice
+import static pl.futurecollars.invoicing.helpers.TestHelpers.invoice
 
 class InMemoryDatabaseTest extends Specification {
 

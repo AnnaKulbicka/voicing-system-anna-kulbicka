@@ -1,5 +1,6 @@
-package pl.futurecollars.invoicing
+package pl.futurecollars.invoicing.App
 
+import pl.futurecollars.invoicing.App
 import spock.lang.Specification
 
 class AppTest extends Specification {

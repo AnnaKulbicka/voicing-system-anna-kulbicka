@@ -9,11 +9,11 @@ public interface Database {
 
   int save(Invoice invoice);
 
-  Optional<Invoice> getById(int id);
+  Optional<Invoice> getById(int id) throws RuntimeException;
 
-  List<Invoice> getAll();
+  List<Invoice> getAll() throws RuntimeException;
 
-  void update(int id, Invoice updatedInvoice);
+  void update(int id, Invoice updatedInvoice) throws RuntimeException;
 
   void delete(int id);
 
