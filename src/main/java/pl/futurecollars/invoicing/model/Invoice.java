@@ -1,11 +1,18 @@
+
+
+
+
 package pl.futurecollars.invoicing.model;
 
 import java.time.LocalDate;
 import java.util.List;
 import lombok.Data;
+
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
+
+
 @Data
 public class Invoice {
 
