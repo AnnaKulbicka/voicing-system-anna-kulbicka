@@ -31,6 +31,12 @@ dependencies {
     compileOnly("org.projectlombok:lombok:1.18.26")
     testCompileOnly("org.projectlombok:lombok:1.18.26")
 
+
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.1'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.11.1'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.11.1'
+
+
     // Use the latest Groovy version for Spock testing
     testImplementation 'org.codehaus.groovy:groovy:3.0.13'
 
@@ -61,49 +67,93 @@ checkstyle {
     maxErrors = 0
 
 
+}
 
-    test {
-        finalizedBy jacocoTestReport // report is always generated after tests run
-        finalizedBy jacocoTestCoverageVerification
+test {
+    finalizedBy jacocoTestReport // report is always generated after tests run
+    finalizedBy jacocoTestCoverageVerification
+}
+
+jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
+}
+
+jacoco {
+    toolVersion = "0.8.8"
+
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = false
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
     }
+}
 
-    jacocoTestReport {
-        dependsOn test // tests are required to run before generating the report
-    }
-
-    jacoco {
-        toolVersion = "0.8.8"
-
-    }
-
-    jacocoTestReport {
-        reports {
-            xml.required = false
-            csv.required = false
-            html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
-        }
-    }
-
-    jacocoTestCoverageVerification {
-        violationRules {
-            rule {
-                limit {
-                    counter = 'BRANCH'
-                    minimum = 0.70
-                }
-            }
-
-            rule {
-                limit {
-                    counter = 'LINE'
-                    minimum = 0.70
-                }
-
-
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                counter = 'BRANCH'
+                minimum = 0.70
             }
         }
 
+        rule {
+            limit {
+                counter = 'LINE'
+                minimum = 0.70
+            }
+
+
+        }
     }
+
+}
+
+
+test {
+    finalizedBy jacocoTestReport // report is always generated after tests run
+    finalizedBy jacocoTestCoverageVerification
+}
+
+jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
+}
+
+jacoco {
+    toolVersion = "0.8.8"
+
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = false
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    }
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                counter = 'BRANCH'
+                minimum = 0.70
+            }
+        }
+
+        rule {
+            limit {
+                counter = 'LINE'
+                minimum = 0.70
+            }
+
+
+        }
+    }
+
 }
 
 

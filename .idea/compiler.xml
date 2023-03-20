@@ -7,10 +7,15 @@
         <processorPath useClasspath="false">
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.26/8f8cf0372abf564913e9796623aac4c8ea44025a/lombok-1.18.26.jar" />
         </processorPath>
-        <module name="voicing-system-anna-kulbicka.test" />
+        <module name="IdeaProjects.voicing-system-anna-kulbicka.test" />
         <module name="voicing-system-anna-kulbicka.main" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="14" />
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="voicing-system-anna-kulbicka.main" options="--add-exports jdk.internal.vm.compiler/org.graalvm.compiler.graph=ALL-UNNAMED --add-exports java.scripting/com.sun.tools.script.shell=ALL-UNNAMED" />
+    </option>
   </component>
 </project>
