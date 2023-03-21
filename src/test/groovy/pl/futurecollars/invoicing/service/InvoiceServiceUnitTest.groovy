@@ -9,8 +9,6 @@ import static pl.futurecollars.invoicing.helpers.TestHelpers.invoice
 
 import spock.lang.Specification
 
-import static pl.futurecollars.invoicing.TestHelpers.invoice
-
 
 class InvoiceServiceUnitTest extends Specification {
 

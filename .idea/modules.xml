@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/voicing-system-anna-kulbicka.iml" filepath="$PROJECT_DIR$/.idea/voicing-system-anna-kulbicka.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/IdeaProjects.voicing-system-anna-kulbicka.main.iml" filepath="$PROJECT_DIR$/.idea/modules/IdeaProjects.voicing-system-anna-kulbicka.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/voicing-system-anna-kulbicka.main.iml" filepath="$PROJECT_DIR$/.idea/modules/voicing-system-anna-kulbicka.main.iml" />
     </modules>
   </component>
