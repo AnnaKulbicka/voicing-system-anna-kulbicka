@@ -62,8 +62,12 @@ abstract class AbstractDatabaseTest extends Specification {
     }
 
     def "deleting not existing invoice is not causing any error"() {
-        expect:
-        database.delete(123)
+        when:
+        def result = database.delete(123)
+
+        then:
+        !result
+        !database.findAll().contains { it.id == 123 }
     }
 
     def "it's possible to update the invoice"() {
