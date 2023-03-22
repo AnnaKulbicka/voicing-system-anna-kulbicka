@@ -3,7 +3,6 @@ package pl.futurecollars.invoicing.db.file;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -42,7 +41,7 @@ public class FileBasedDatabase implements Database {
           .map(line -> jsonService.toObject(line, Invoice.class))
           .findFirst();
     } catch (IOException ex) {
-      return Optional.empty();
+      throw new RuntimeException("Database failed to get invoice with id: " + id, ex);
     }
   }
 
@@ -54,7 +53,7 @@ public class FileBasedDatabase implements Database {
           .map(line -> jsonService.toObject(line, Invoice.class))
           .collect(Collectors.toList());
     } catch (IOException ex) {
-      return Collections.emptyList();
+      throw new RuntimeException("Failed to read invoices from file", ex);
     }
   }
 
