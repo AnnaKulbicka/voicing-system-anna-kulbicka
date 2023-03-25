@@ -1,3 +1,4 @@
+
 package pl.futurecollars.invoicing.db.file;
 
 import java.io.IOException;
@@ -32,7 +33,7 @@ public class FileBasedDatabase implements Database {
   }
 
   @Override
-  public Optional<Invoice> getById(int id) throws RuntimeException {
+  public Optional<Invoice> getById(int id) {
     try {
       return filesService.readAllLines(databasePath)
           .stream()
@@ -45,7 +46,7 @@ public class FileBasedDatabase implements Database {
   }
 
   @Override
-  public List<Invoice> getAll() throws RuntimeException {
+  public List<Invoice> getAll() {
     try {
       return filesService.readAllLines(databasePath)
           .stream()
@@ -57,37 +58,43 @@ public class FileBasedDatabase implements Database {
   }
 
   @Override
-  public void update(int id, Invoice updatedInvoice) throws RuntimeException {
+  public Optional<Invoice> update(int id, Invoice updatedInvoice) {
     try {
       List<String> allInvoices = filesService.readAllLines(databasePath);
-      var listWithoutInvoiceWithGivenId = allInvoices
+      var invoicesWithoutInvoiceWithGivenId = allInvoices
           .stream()
           .filter(line -> !containsId(line, id))
           .collect(Collectors.toList());
 
-      if (allInvoices.size() == listWithoutInvoiceWithGivenId.size()) {
-        throw new IllegalArgumentException("Id " + id + " does not exist");
-      }
-
       updatedInvoice.setId(id);
-      listWithoutInvoiceWithGivenId.add(jsonService.toJson(updatedInvoice));
+      invoicesWithoutInvoiceWithGivenId.add(jsonService.toJson(updatedInvoice));
 
-      filesService.writeLinesToFile(databasePath, listWithoutInvoiceWithGivenId);
+      filesService.writeLinesToFile(databasePath, invoicesWithoutInvoiceWithGivenId);
+
+      allInvoices.removeAll(invoicesWithoutInvoiceWithGivenId);
+      return allInvoices.isEmpty() ? Optional.empty() : Optional.of(jsonService.toObject(allInvoices.get(0), Invoice.class));
 
     } catch (IOException ex) {
       throw new RuntimeException("Failed to update invoice with id: " + id, ex);
     }
+
   }
 
   @Override
-  public void delete(int id) {
+  public Optional<Invoice> delete(int id) {
     try {
-      var updatedList = filesService.readAllLines(databasePath)
+      var allInvoices = filesService.readAllLines(databasePath);
+
+      var invoicesExceptDeleted = allInvoices
           .stream()
           .filter(line -> !containsId(line, id))
           .collect(Collectors.toList());
 
-      filesService.writeLinesToFile(databasePath, updatedList);
+      filesService.writeLinesToFile(databasePath, invoicesExceptDeleted);
+
+      allInvoices.removeAll(invoicesExceptDeleted);
+
+      return allInvoices.isEmpty() ? Optional.empty() : Optional.of(jsonService.toObject(allInvoices.get(0), Invoice.class));
 
     } catch (IOException ex) {
       throw new RuntimeException("Failed to delete invoice with id: " + id, ex);
@@ -97,4 +104,5 @@ public class FileBasedDatabase implements Database {
   private boolean containsId(String line, int id) {
     return line.contains("\"id\":" + id + ",");
   }
+
 }
