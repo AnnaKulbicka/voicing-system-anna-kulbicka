@@ -34,7 +34,7 @@ public class DatabaseConfiguration {
                                     @Value("${invoicing-system.database.directory}") String databaseDirectory,
                                     @Value("${invoicing-system.database.invoices.file}") String invoicesFile)
       throws IOException {
-    log.info("Creating in-file database");
+    log.debug("Creating in-file database");
     Path databaseFilePath = Files.createTempFile(databaseDirectory, invoicesFile);
     return new FileBasedDatabase(databaseFilePath, idService, filesService, jsonService);
   }
@@ -42,7 +42,7 @@ public class DatabaseConfiguration {
   @ConditionalOnProperty(name = "invoicing-system.database", havingValue = "memory")
   @Bean
   public Database inMemoryDatabase() {
-    log.info("Creating in-memory database");
+    log.debug("Creating in-memory database");
     return new InMemoryDatabase();
   }
 
