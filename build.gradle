@@ -114,7 +114,7 @@ jacocoTestReport {
 
 jacoco {
     toolVersion = "0.8.8"
-    reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
+    reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir') as Directory
 }
 
 jacocoTestReport {
@@ -130,13 +130,13 @@ jacocoTestCoverageVerification {
         rule {
             limit {
                 counter = 'BRANCH'
-                minimum = 0.70
+                minimum = 0.85
             }
         }
         rule {
             limit {
                 counter = 'LINE'
-                minimum = 0.70
+                minimum = 0.85
             }
         }
     }
