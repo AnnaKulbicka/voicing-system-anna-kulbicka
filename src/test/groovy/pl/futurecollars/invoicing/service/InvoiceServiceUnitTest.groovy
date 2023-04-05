@@ -62,4 +62,5 @@ class InvoiceServiceUnitTest extends Specification {
         then:
         1 * database.update(invoice.getId(), invoice)
     }
+
 }
