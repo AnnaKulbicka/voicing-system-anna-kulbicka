@@ -12,3 +12,4 @@ plugins {
 }
 
 rootProject.name = 'voicing-system-anna-kulbicka'
+include('app')

@@ -16,11 +16,12 @@ class TestHelpers {
     }
 
     static product(int id) {
-        new InvoiceEntry("Programming course $id", BigDecimal.valueOf(id * 1000),
-            BigDecimal.valueOf(id * 1000 * 0.08), Vat.VAT_8)
+        new InvoiceEntry("Programming course $id", id, BigDecimal.valueOf(id * 1000), BigDecimal.valueOf(id * 1000 * 0.08), Vat.VAT_8)
     }
+
 
     static invoice(int id) {
         new Invoice(LocalDate.now(), company(id), company(id), List.of(product(id)))
     }
+
 }
