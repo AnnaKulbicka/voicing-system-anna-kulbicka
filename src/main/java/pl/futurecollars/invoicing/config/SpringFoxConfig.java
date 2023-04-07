@@ -34,9 +34,9 @@ public class SpringFoxConfig {
         .title("Private Invoicing")
         .contact(
             new Contact(
-                "Joanna Wolska",
-                "https://github.com/joannamariawolska/invoicing-system-joanna-wolska",
-                "joannaMW@gmail.com")
+                "Anna Kulbicka",
+                "https://github.com/AnnaKulbicka/voicing-system-anna-kulbicka",
+                "ania.kulbicka@onet.pl")
         )
         .build();
   }
