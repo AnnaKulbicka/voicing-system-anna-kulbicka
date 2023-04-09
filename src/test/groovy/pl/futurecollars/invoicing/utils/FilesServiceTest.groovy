@@ -82,4 +82,5 @@ class FilesServiceTest extends Specification {
         expect:
         [] == filesService.readAllLines(path)
     }
+
 }
