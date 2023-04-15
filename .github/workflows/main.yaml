@@ -11,9 +11,8 @@ name: CI
 
 on:
   push:
-    branches: [task*]
-  pull_request:
-    branches: [task*]
+    branches: [ task* ]
+
 
   workflow_dispatch:
 

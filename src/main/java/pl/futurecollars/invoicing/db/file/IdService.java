@@ -36,6 +36,7 @@ public class IdService {
     } catch (IOException ex) {
       throw new RuntimeException("Failed to read id file", ex);
     }
+
   }
 
 }

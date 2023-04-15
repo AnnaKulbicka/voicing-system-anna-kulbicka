@@ -23,7 +23,7 @@ class FileBasedDatabaseIntegrationTest extends AbstractDatabaseTest {
         return new FileBasedDatabase(dbPath, idService, filesService, new JsonService())
     }
 
-    def "file based database writes invoices to correct file"() {
+    def " file based database writes invoices to correct file"() {
         given:
         def db = getDatabaseInstance()
 

@@ -50,4 +50,5 @@ class IdServiceTest extends Specification {
         19 == idService.getNextIdAndIncrement()
         ['20'] == Files.readAllLines(nextIdDbPath)
     }
+
 }

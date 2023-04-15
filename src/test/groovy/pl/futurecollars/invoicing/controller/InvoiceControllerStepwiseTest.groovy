@@ -71,7 +71,7 @@ class InvoiceControllerStepwiseTest extends Specification {
         invoiceId > 0
     }
 
-    def "one invoice is returned when getting all invoices"() {
+    def " empty array is returned when no invoices were added"() {
         given:
         def expectedInvoice = originalInvoice
         expectedInvoice.id = invoiceId
@@ -157,4 +157,5 @@ class InvoiceControllerStepwiseTest extends Specification {
         mockMvc.perform(get("/invoices/$invoiceId"))
             .andExpect(status().isNotFound())
     }
+
 }

@@ -2,7 +2,6 @@ package pl.futurecollars.invoicing.db
 
 import pl.futurecollars.invoicing.model.Invoice
 import spock.lang.Specification
-
 import static pl.futurecollars.invoicing.helpers.TestHelpers.invoice
 
 abstract class AbstractDatabaseTest extends Specification {
@@ -61,24 +60,22 @@ abstract class AbstractDatabaseTest extends Specification {
         database.getAll().isEmpty()
     }
 
-    def "deleting not existing invoice is not causing any error"() {
-        when:
-        def result = database.delete(123)
-
-        then:
-        !result
-        !database.findAll().contains { it.id == 123 }
+    def "deleting not existing invoice returns optional empty"() {
+        expect:
+        database.delete(123) == Optional.empty()
     }
 
-    def "it's possible to update the invoice"() {
+    def "it's possible to update the invoice, original invoice is returned"() {
         given:
-        int id = database.save(invoices.get(0))
+        def originalInvoice = invoices.get(0)
+        int id = database.save(originalInvoice)
 
         when:
-        database.update(id, invoices.get(1))
+        def result = database.update(id, invoices.get(1))
 
         then:
         database.getById(id).get() == invoices.get(1)
+        result == Optional.of(originalInvoice)
     }
 
     def "updating not existing invoice returns Optional.empty()"() {

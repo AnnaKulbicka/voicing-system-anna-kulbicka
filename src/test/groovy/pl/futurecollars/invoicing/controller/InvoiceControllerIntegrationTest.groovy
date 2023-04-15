@@ -62,7 +62,7 @@ class InvoiceControllerIntegrationTest extends Specification {
         invoices == expectedInvoices
     }
 
-    def "correct invoice is returned when getting by id"() {
+    def "Invoice retrieved by id matches expected invoice"() {
         given:
         def expectedInvoices = addUniqueInvoices(5)
         def verifiedInvoice = expectedInvoices.get(2)
@@ -74,7 +74,7 @@ class InvoiceControllerIntegrationTest extends Specification {
         invoice == verifiedInvoice
     }
 
-    def "404 is returned when invoice id is not found when getting invoice by id [#id]"() {
+    def "404 is returned when invoice id is not found when getting invoice by id "() {
         given:
         addUniqueInvoices(11)
 
@@ -89,7 +89,7 @@ class InvoiceControllerIntegrationTest extends Specification {
         id << [-100, -2, -1, 0, 168, 1256]
     }
 
-    def "404 is returned when invoice id is not found when deleting invoice [#id]"() {
+    def "404 is returned when invoice id is not found when deleting invoice"() {
         given:
         addUniqueInvoices(11)
 
@@ -104,7 +104,7 @@ class InvoiceControllerIntegrationTest extends Specification {
         id << [-100, -2, -1, 0, 12, 13, 99, 102, 1000]
     }
 
-    def "404 is returned when invoice id is not found when updating invoice [#id]"() {
+    def "404 is returned when invoice id is not found when updating invoice [id]"() {
         given:
         addUniqueInvoices(11)
 
@@ -121,7 +121,7 @@ class InvoiceControllerIntegrationTest extends Specification {
         id << [-100, -2, -1, 0, 12, 13, 99, 102, 1000]
     }
 
-    def "invoice date can be modified"() {
+    def "Modifying invoice date is successful"() {
         given:
         def id = addInvoiceAndReturnId(invoiceAsJson(44))
         def updatedInvoice = invoice(123)
@@ -138,7 +138,7 @@ class InvoiceControllerIntegrationTest extends Specification {
         getInvoiceById(id) == updatedInvoice
     }
 
-    def "invoice can be deleted"() {
+    def "invoices can be deleted"() {
         given:
         def invoices = addUniqueInvoices(69)
 
@@ -197,4 +197,5 @@ class InvoiceControllerIntegrationTest extends Specification {
     private String invoiceAsJson(int id) {
         jsonService.toJson(invoice(id))
     }
+
 }

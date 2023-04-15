@@ -1,4 +1,3 @@
-
 package pl.futurecollars.invoicing.db;
 
 import java.util.List;

@@ -1,10 +1,5 @@
 package pl.futurecollars.invoicing.service
-
 import pl.futurecollars.invoicing.db.Database
-
-import pl.futurecollars.invoicing.model.Invoice
-import spock.lang.Specification
-
 import static pl.futurecollars.invoicing.helpers.TestHelpers.invoice
 
 import spock.lang.Specification
@@ -62,4 +57,5 @@ class InvoiceServiceUnitTest extends Specification {
         then:
         1 * database.update(invoice.getId(), invoice)
     }
+
 }
