@@ -49,7 +49,7 @@ class InvoiceControllerIntegrationTest extends Specification {
         addInvoiceAndReturnId(invoiceAsJson) == firstId + 4
     }
 
-    def "404 is returned when trying to get non-existent invoice by id"() {
+    def "all invoices are returned when getting all invoices"() {
         given:
         def numberOfInvoices = 3
         def expectedInvoices = addUniqueInvoices(numberOfInvoices)
@@ -62,7 +62,7 @@ class InvoiceControllerIntegrationTest extends Specification {
         invoices == expectedInvoices
     }
 
-    def "Invoice is successfully deleted when valid invoice ID is provided [-2]"() {
+    def "Invoice retrieved by id matches expected invoice"() {
         given:
         def expectedInvoices = addUniqueInvoices(5)
         def verifiedInvoice = expectedInvoices.get(2)
@@ -74,7 +74,7 @@ class InvoiceControllerIntegrationTest extends Specification {
         invoice == verifiedInvoice
     }
 
-    def "GET request for invalid invoice ID returns 404 status code."() {
+    def "404 is returned when invoice id is not found when getting invoice by id "() {
         given:
         addUniqueInvoices(11)
 
@@ -89,7 +89,7 @@ class InvoiceControllerIntegrationTest extends Specification {
         id << [-100, -2, -1, 0, 168, 1256]
     }
 
-    def "404 is returned when invoice id is not found when deleting invoice [-1]"() {
+    def "404 is returned when invoice id is not found when deleting invoice"() {
         given:
         addUniqueInvoices(11)
 
@@ -104,7 +104,7 @@ class InvoiceControllerIntegrationTest extends Specification {
         id << [-100, -2, -1, 0, 12, 13, 99, 102, 1000]
     }
 
-    def "404 is returned when invoice id is not found when deleting invoice [-2]"() {
+    def "404 is returned when invoice id is not found when updating invoice [id]"() {
         given:
         addUniqueInvoices(11)
 
@@ -121,7 +121,7 @@ class InvoiceControllerIntegrationTest extends Specification {
         id << [-100, -2, -1, 0, 12, 13, 99, 102, 1000]
     }
 
-    def "updating non-existent invoice returns 404 status code [103]"() {
+    def "Modifying invoice date is successful"() {
         given:
         def id = addInvoiceAndReturnId(invoiceAsJson(44))
         def updatedInvoice = invoice(123)
@@ -138,7 +138,7 @@ class InvoiceControllerIntegrationTest extends Specification {
         getInvoiceById(id) == updatedInvoice
     }
 
-    def "404 is returned when invoice id is not found when deleting invoice [0]"() {
+    def "invoices can be deleted"() {
         given:
         def invoices = addUniqueInvoices(69)
 

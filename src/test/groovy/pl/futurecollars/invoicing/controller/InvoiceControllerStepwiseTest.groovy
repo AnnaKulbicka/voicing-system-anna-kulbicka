@@ -157,4 +157,5 @@ class InvoiceControllerStepwiseTest extends Specification {
         mockMvc.perform(get("/invoices/$invoiceId"))
             .andExpect(status().isNotFound())
     }
+
 }

@@ -17,6 +17,7 @@
 
     <property name="charset" value="UTF-8"/>
 
+
     <module name="NewlineAtEndOfFile">
         <property name="severity" value="warning"/>
         <property name="fileExtensions" value="java, properties, xml"/>
@@ -46,7 +47,6 @@
     </module>
 
     <module name="TreeWalker">
-
 
         <module name="EmptyLineSeparator">
             <property name="tokens" value="PACKAGE_DEF, CLASS_DEF, INTERFACE_DEF, ENUM_DEF, STATIC_INIT, INSTANCE_INIT, METHOD_DEF, CTOR_DEF"/>
@@ -235,7 +235,7 @@
         <module name="OperatorWrap">
             <property name="option" value="NL"/>
             <property name="tokens"
-                      value="BAND, BOR, BSR, BXOR, DIV, EQUAL, GE, GT, LAND, LE, LITERAL_INSTANCE-OF, LOR,
+                      value="BAND, BOR, BSR, BXOR, DIV, EQUAL, GE, GT, LAND, LE, LITERAL_INSTANCEOF, LOR,
                     LT, MINUS, MOD, NOT_EQUAL, PLUS, QUESTION, SL, SR, STAR, METHOD_REF "/>
         </module>
         <module name="AnnotationLocation">
