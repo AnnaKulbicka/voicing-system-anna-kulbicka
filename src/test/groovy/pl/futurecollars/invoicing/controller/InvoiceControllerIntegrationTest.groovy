@@ -1,7 +1,6 @@
 package pl.futurecollars.invoicing.controller
 
 import org.springframework.http.MediaType
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import static pl.futurecollars.invoicing.helpers.TestHelpers.invoice
@@ -14,15 +13,12 @@ class InvoiceControllerIntegrationTest extends AbstractControllerTest {
     }
 
     def "add invoice returns sequential id"() {
-        given:
-        def invoiceAsJson = invoiceAsJson(1)
-
         expect:
-        def firstId = addInvoiceAndReturnId(invoiceAsJson)
-        addInvoiceAndReturnId(invoiceAsJson) == firstId + 1
-        addInvoiceAndReturnId(invoiceAsJson) == firstId + 2
-        addInvoiceAndReturnId(invoiceAsJson) == firstId + 3
-        addInvoiceAndReturnId(invoiceAsJson) == firstId + 4
+        def firstId = addInvoiceAndReturnId(invoice(1))
+        addInvoiceAndReturnId(invoice(2)) == firstId + 1
+        addInvoiceAndReturnId(invoice(3)) == firstId + 2
+        addInvoiceAndReturnId(invoice(4)) == firstId + 3
+        addInvoiceAndReturnId(invoice(5)) == firstId + 4
     }
 
     def "all invoices are returned when getting all invoices"() {
@@ -99,7 +95,7 @@ class InvoiceControllerIntegrationTest extends AbstractControllerTest {
 
     def "invoice date can be modified"() {
         given:
-        def id = addInvoiceAndReturnId(invoiceAsJson(44))
+        def id = addInvoiceAndReturnId(invoice(44))
         def updatedInvoice = invoice(123)
         updatedInvoice.id = id
 
@@ -122,4 +118,5 @@ class InvoiceControllerIntegrationTest extends AbstractControllerTest {
         invoices.each { invoice -> deleteInvoice(invoice.getId()) }
         getAllInvoices().size() == 0
     }
+
 }

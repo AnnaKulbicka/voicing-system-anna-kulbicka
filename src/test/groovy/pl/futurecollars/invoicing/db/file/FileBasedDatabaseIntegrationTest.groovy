@@ -8,6 +8,7 @@ import pl.futurecollars.invoicing.utils.JsonService
 
 import java.nio.file.Files
 
+
 class FileBasedDatabaseIntegrationTest extends AbstractDatabaseTest {
 
     def dbPath
