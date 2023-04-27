@@ -26,11 +26,11 @@ public class TaxCalculatorService {
     return database.visit(buyerPredicate(taxIdentificationNumber), this::getIncomeValueTakingIntoConsiderationPersonalCarUsage);
   }
 
-  public BigDecimal collectedVat(String taxIdentificationNumber) { // vat we collect when selling products
+  public BigDecimal collectedVat(String taxIdentificationNumber) {
     return database.visit(sellerPredicate(taxIdentificationNumber), InvoiceEntry::getVatValue);
   }
 
-  public BigDecimal paidVat(String taxIdentificationNumber) { // vat we pay when buying products
+  public BigDecimal paidVat(String taxIdentificationNumber) {
     return database.visit(buyerPredicate(taxIdentificationNumber), this::getVatValueTakingIntoConsiderationPersonalCarUsage);
   }
 
@@ -45,8 +45,7 @@ public class TaxCalculatorService {
 
   private BigDecimal getIncomeValueTakingIntoConsiderationPersonalCarUsage(InvoiceEntry invoiceEntry) {
     return invoiceEntry.getNetPrice()
-        // calling function instead of calculating proportion again allows us to keep logic in one place
-        // and gives guarantee that unequal rounding value is calculated either in costs or vat
+
         .add(invoiceEntry.getVatValue())
         .subtract(getVatValueTakingIntoConsiderationPersonalCarUsage(invoiceEntry));
   }
