@@ -1,4 +1,5 @@
-package pl.futurecollars.invoicing.controller.invoice.tax
+package pl.futurecollars.invoicing.controller.tax
+
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
@@ -13,15 +14,20 @@ import spock.lang.Specification
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import static pl.futurecollars.invoicing.helpers.TestHelpers.invoice
+
 @AutoConfigureMockMvc
 @SpringBootTest
 class AbstractControllerTest extends Specification {
+
     static final String INVOICE_ENDPOINT = "/invoices"
     static final String TAX_CALCULATOR_ENDPOINT = "/tax"
+
     @Autowired
     MockMvc mockMvc
+
     @Autowired
     JsonService jsonService
+
     def setup() {
         getAllInvoices().each { invoice -> deleteInvoice(invoice.id) }
     }
@@ -39,6 +45,7 @@ class AbstractControllerTest extends Specification {
                 .contentAsString
         )
     }
+
     List<Invoice> getAllInvoices() {
         def response = mockMvc.perform(get(INVOICE_ENDPOINT))
             .andExpect(status().isOk())
@@ -47,6 +54,7 @@ class AbstractControllerTest extends Specification {
             .contentAsString
         jsonService.toObject(response, Invoice[])
     }
+
     List<Invoice> addUniqueInvoices(int count) {
         (1..count).collect { id ->
             def invoice = invoice(id)
@@ -54,10 +62,12 @@ class AbstractControllerTest extends Specification {
             return invoice
         }
     }
+
     void deleteInvoice(int id) {
         mockMvc.perform(delete("$INVOICE_ENDPOINT/$id"))
             .andExpect(status().isNoContent())
     }
+
     Invoice getInvoiceById(int id) {
         def invoiceAsString = mockMvc.perform(get("$INVOICE_ENDPOINT/$id"))
             .andExpect(status().isOk())
@@ -66,6 +76,7 @@ class AbstractControllerTest extends Specification {
             .contentAsString
         jsonService.toObject(invoiceAsString, Invoice)
     }
+
     String invoiceAsJson(int id) {
         jsonService.toJson(invoice(id))
     }

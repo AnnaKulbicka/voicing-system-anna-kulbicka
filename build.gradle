@@ -8,7 +8,6 @@
 
 buildscript {
     ext {
-        groovyVersion = "3.0.16"
         lombokVersion = '1.18.22'
         spockVersion = '2.3-groovy-3.0'
         springBootVersion = '2.4.2'
@@ -20,10 +19,10 @@ buildscript {
 
 
 plugins {
-    id "java"
-
+    // Apply the groovy plugin to also add support for Groovy (needed for Spock)
     id 'groovy'
 
+    // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
 
     id 'checkstyle'
@@ -31,51 +30,59 @@ plugins {
     id 'jacoco'
 
     id 'org.springframework.boot' version "${springBootVersion}"
-
     id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
+
+    id 'java'
 
 }
 
 group = 'pl.futurecollars'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '15'
-
 
 repositories {
-
+    // Use Maven Central for resolving dependencies.
     mavenCentral()
 }
 
-java{
+java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(15)
         vendor = JvmVendorSpec.ADOPTOPENJDK
     }
 }
 
+
 dependencies {
-    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    implementation "org.projectlombok:lombok:${lombokVersion}"
 
-    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    // Use the latest Groovy version for Spock testing
+    testImplementation 'org.codehaus.groovy:groovy:3.0.13'
 
+    // Use the awesome Spock testing and specification framework even with Java
+    testImplementation "org.spockframework:spock-core:${spockVersion}"
+    testImplementation "org.spockframework:spock-spring:${spockVersion}"
+    testImplementation 'junit:junit:4.13.2'
+
+    // This dependency is used by the application.
+    implementation 'com.google.guava:guava:31.1-jre'
+
+    //Lombok -> lekcja 2
+    annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
+    testAnnotationProcessor("org.projectlombok:lombok:${lombokVersion}")
+    compileOnly("org.projectlombok:lombok:${lombokVersion}")
+    testCompileOnly("org.projectlombok:lombok:${lombokVersion}")
+
+    //jackson - lekcja 3
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.1'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.11.1'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.11.1'
+
+    //spring - lekcja 4
     implementation 'org.springframework.boot:spring-boot-starter-web'
-
-    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-
-    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
-
-    testImplementation "org.codehaus.groovy:groovy:${groovyVersion}"
-
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-    testImplementation "org.spockframework:spock-core:${spockVersion}"
-
-    testImplementation "org.spockframework:spock-spring:${spockVersion}"
-
     implementation "io.springfox:springfox-boot-starter:${springFoxStarterVersion}"
-
     implementation "io.springfox:springfox-swagger-ui:${springFoxUiVersion}"
-
 
 }
 
@@ -84,17 +91,22 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
+checkstyle {
+    showViolations = true
+    ignoreFailures = false
+    maxWarnings = 0
+    maxErrors = 0
+}
+
+//lesson 4 -> fixing build problems
+bootJar {
+    enabled = false
+}
 
 test {
     finalizedBy jacocoTestReport // report is always generated after tests run
     finalizedBy jacocoTestCoverageVerification
 }
-
-
-bootJar {
-    enabled = false
-}
-
 
 jacocoTestReport {
     dependsOn test // tests are required to run before generating the report
@@ -132,13 +144,6 @@ jacocoTestCoverageVerification {
     afterEvaluate {
         classDirectories.setFrom(files(classDirectories.files.collect {
             fileTree(dir: it, exclude: ['pl/futurecollars/invoicing/InvoiceApplication.class', 'pl/futurecollars/invoicing/db/DatabaseConfiguration.class'])
-    }))
-    }
-
-    checkstyle {
-        showViolations = true
-        ignoreFailures = false
-        maxWarnings = 0
-        maxErrors = 0
+        }))
     }
 }
