@@ -1,4 +1,4 @@
-package pl.futurecollars.invoicing.controller.invoice;
+package pl.futurecollars.invoicing.invoice;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -18,7 +18,7 @@ import pl.futurecollars.invoicing.model.Invoice;
 public interface InvoiceApi {
 
   @ApiOperation(value = "Get list of all invoices")
-  @GetMapping(produces = {"application/json;charset=UTF-8"})
+  @GetMapping
   List<Invoice> getAll();
 
   @ApiOperation(value = "Add new invoice to system")
@@ -26,7 +26,7 @@ public interface InvoiceApi {
   int add(@RequestBody Invoice invoice);
 
   @ApiOperation(value = "Get invoice by id")
-  @GetMapping(value = "/{id}", produces = {"application/json;charset=UTF-8"})
+  @GetMapping(value = "/{id}")
   ResponseEntity<Invoice> getById(@PathVariable int id);
 
   @ApiOperation(value = "Delete invoice with given id")
