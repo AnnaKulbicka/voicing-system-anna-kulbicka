@@ -1,7 +1,7 @@
 package pl.futurecollars.invoicing.controller.invoice
 
 import org.springframework.http.MediaType
-import pl.futurecollars.invoicing.controller.tax.AbstractControllerTest
+import pl.futurecollars.invoicing.controller.AbstractControllerTest
 import spock.lang.Unroll
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*

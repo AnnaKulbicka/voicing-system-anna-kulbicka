@@ -39,10 +39,10 @@ plugins {
 group = 'pl.futurecollars'
 version = '0.0.1-SNAPSHOT'
 
-repositories {
+repositories(({
     // Use Maven Central for resolving dependencies.
     mavenCentral()
-}
+} as Closure))
 
 java {
     toolchain {
@@ -83,6 +83,9 @@ dependencies {
 
     implementation "io.springfox:springfox-boot-starter:${springFoxStarterVersion}"
     implementation "io.springfox:springfox-swagger-ui:${springFoxUiVersion}"
+
+
+
 
 }
 

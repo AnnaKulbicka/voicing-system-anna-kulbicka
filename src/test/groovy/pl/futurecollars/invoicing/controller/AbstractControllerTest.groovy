@@ -1,4 +1,4 @@
-package pl.futurecollars.invoicing.controller.tax
+package pl.futurecollars.invoicing.controller
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -34,24 +34,25 @@ class AbstractControllerTest extends Specification {
 
     int addInvoiceAndReturnId(Invoice invoice) {
         Integer.valueOf(
-            mockMvc.perform(
-                post(INVOICE_ENDPOINT)
-                    .content(jsonService.toJson(invoice))
-                    .contentType(MediaType.APPLICATION_JSON)
-            )
-                .andExpect(status().isOk())
-                .andReturn()
-                .response
-                .contentAsString
+                mockMvc.perform(
+                        post(INVOICE_ENDPOINT)
+                                .content(jsonService.toJson(invoice))
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                        .andExpect(status().isOk())
+                        .andReturn()
+                        .response
+                        .contentAsString
         )
     }
 
     List<Invoice> getAllInvoices() {
         def response = mockMvc.perform(get(INVOICE_ENDPOINT))
-            .andExpect(status().isOk())
-            .andReturn()
-            .response
-            .contentAsString
+                .andExpect(status().isOk())
+                .andReturn()
+                .response
+                .contentAsString
+
         jsonService.toObject(response, Invoice[])
     }
 
@@ -65,15 +66,16 @@ class AbstractControllerTest extends Specification {
 
     void deleteInvoice(int id) {
         mockMvc.perform(delete("$INVOICE_ENDPOINT/$id"))
-            .andExpect(status().isNoContent())
+                .andExpect(status().isNoContent())
     }
 
-    Invoice getInvoiceById(int id) {
+    def getInvoiceById = { int id ->
         def invoiceAsString = mockMvc.perform(get("$INVOICE_ENDPOINT/$id"))
-            .andExpect(status().isOk())
-            .andReturn()
-            .response
-            .contentAsString
+                .andExpect(status().isOk())
+                .andReturn()
+                .response
+                .contentAsString
+
         jsonService.toObject(invoiceAsString, Invoice)
     }
 
@@ -83,14 +85,15 @@ class AbstractControllerTest extends Specification {
 
     TaxCalculatorResult calculateTax(Company company) {
         def response = mockMvc.perform(
-            post("$TAX_CALCULATOR_ENDPOINT")
-                .content(jsonService.toJson(company))
-                .contentType(MediaType.APPLICATION_JSON)
+                post("$TAX_CALCULATOR_ENDPOINT")
+                        .content(jsonService.toJson(company))
+                        .contentType(MediaType.APPLICATION_JSON)
         )
-            .andExpect(status().isOk())
-            .andReturn()
-            .response
-            .contentAsString
+                .andExpect(status().isOk())
+                .andReturn()
+                .response
+                .contentAsString
+
         jsonService.toObject(response, TaxCalculatorResult)
     }
 
