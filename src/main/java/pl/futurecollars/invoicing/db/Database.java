@@ -30,7 +30,6 @@ public interface Database {
         .map(invoiceEntryToValue)
         .reduce(BigDecimal.ZERO, BigDecimal::add);
   }
+
 }
-
-
 
