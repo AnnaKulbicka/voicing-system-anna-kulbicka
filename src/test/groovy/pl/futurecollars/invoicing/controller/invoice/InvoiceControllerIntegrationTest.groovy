@@ -1,12 +1,14 @@
 package pl.futurecollars.invoicing.controller.invoice
 
 import org.springframework.http.MediaType
-import pl.futurecollars.invoicing.controller.tax.AbstractControllerTest
+import pl.futurecollars.invoicing.controller.AbstractControllerTest
+import spock.lang.Unroll
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import static pl.futurecollars.invoicing.helpers.TestHelpers.invoice
 
+@Unroll
 class InvoiceControllerIntegrationTest extends AbstractControllerTest {
 
     def "empty array is returned when no invoices were added"() {
@@ -54,9 +56,9 @@ class InvoiceControllerIntegrationTest extends AbstractControllerTest {
 
         expect:
         mockMvc.perform(
-            get("$INVOICE_ENDPOINT/$id")
+                get("$INVOICE_ENDPOINT/$id")
         )
-            .andExpect(status().isNotFound())
+                .andExpect(status().isNotFound())
 
 
         where:
@@ -69,9 +71,9 @@ class InvoiceControllerIntegrationTest extends AbstractControllerTest {
 
         expect:
         mockMvc.perform(
-            delete("$INVOICE_ENDPOINT/$id")
+                delete("$INVOICE_ENDPOINT/$id")
         )
-            .andExpect(status().isNotFound())
+                .andExpect(status().isNotFound())
 
 
         where:
@@ -84,11 +86,11 @@ class InvoiceControllerIntegrationTest extends AbstractControllerTest {
 
         expect:
         mockMvc.perform(
-            put("$INVOICE_ENDPOINT/$id")
-                .content(invoiceAsJson(1))
-                .contentType(MediaType.APPLICATION_JSON)
+                put("$INVOICE_ENDPOINT/$id")
+                        .content(invoiceAsJson(1))
+                        .contentType(MediaType.APPLICATION_JSON)
         )
-            .andExpect(status().isNotFound())
+                .andExpect(status().isNotFound())
 
 
         where:
@@ -103,11 +105,11 @@ class InvoiceControllerIntegrationTest extends AbstractControllerTest {
 
         expect:
         mockMvc.perform(
-            put("$INVOICE_ENDPOINT/$id")
-                .content(jsonService.toJson(updatedInvoice))
-                .contentType(MediaType.APPLICATION_JSON)
+                put("$INVOICE_ENDPOINT/$id")
+                        .content(jsonService.toJson(updatedInvoice))
+                        .contentType(MediaType.APPLICATION_JSON)
         )
-            .andExpect(status().isNoContent())
+                .andExpect(status().isNoContent())
 
         getInvoiceById(id) == updatedInvoice
     }

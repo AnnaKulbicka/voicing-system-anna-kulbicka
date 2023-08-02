@@ -22,7 +22,7 @@ public class FileBasedDatabase implements Database {
   @Override
   public int save(Invoice invoice) {
     try {
-      invoice.setId(idService.getNextIdAndIncrement());
+      invoice.setId(idService.getNextIdAndIncreament());
       filesService.appendLineToFile(databasePath, jsonService.toJson(invoice));
 
       return invoice.getId();
@@ -101,7 +101,7 @@ public class FileBasedDatabase implements Database {
   }
 
   private boolean containsId(String line, int id) {
-    return line.contains("\"id\":" + id + ",");
+    return line.contains("{\"id\":" + id + ",\"number\""); // now multiple objects has id, but only invoice has number
   }
 
 }
