@@ -1,5 +1,6 @@
-package pl.futurecollars.invoicing.invoice;
+package pl.futurecollars.invoicing.controller.invoice;
 
+import java.sql.SQLException;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +17,12 @@ public class InvoiceController implements InvoiceApi {
   private final InvoiceService invoiceService;
 
   @Override
-  public List<Invoice> getAll() {
+  public List<Invoice> getAll() throws SQLException {
     return invoiceService.getAll();
   }
 
   @Override
-  public int add(@RequestBody Invoice invoice) {
+  public long add(@RequestBody Invoice invoice) {
     return invoiceService.save(invoice);
   }
 

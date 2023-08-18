@@ -1,5 +1,6 @@
 package pl.futurecollars.invoicing.service;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -16,14 +17,14 @@ public class InvoiceService {
   }
 
   public int save(Invoice invoice) {
-    return database.save(invoice);
+    return (int) database.save(invoice);
   }
 
   public Optional<Invoice> getById(int id) {
     return database.getById(id);
   }
 
-  public List<Invoice> getAll() {
+  public List<Invoice> getAll() throws SQLException {
     return database.getAll();
   }
 

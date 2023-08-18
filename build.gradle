@@ -84,10 +84,19 @@ dependencies {
     implementation "io.springfox:springfox-boot-starter:${springFoxStarterVersion}"
     implementation "io.springfox:springfox-swagger-ui:${springFoxUiVersion}"
 
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    runtimeOnly 'org.postgresql:postgresql:42.2.19'
+    runtimeOnly 'com.h2database:h2:1.4.200'
+    implementation "org.flywaydb:flyway-core:7.6.0"
 
-
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
 }
+
+
+
+
+
 
 tasks.named('test') {
     // Use JUnit Platform for unit tests.

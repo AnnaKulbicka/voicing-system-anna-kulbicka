@@ -1,6 +1,7 @@
 package pl.futurecollars.invoicing.db;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -10,13 +11,25 @@ import pl.futurecollars.invoicing.model.InvoiceEntry;
 
 public interface Database {
 
-  int save(Invoice invoice);
+  long save(Invoice invoice);
+
+  Optional<Invoice> getById();
+
+  Optional<Invoice> getById(long id) throws SQLException;
 
   Optional<Invoice> getById(int id);
 
   List<Invoice> getAll();
 
+  Optional<Invoice> update(long id, Invoice updatedInvoice) throws SQLException;
+
+  Optional<Invoice> update();
+
   Optional<Invoice> update(int id, Invoice updatedInvoice);
+
+  Optional<Invoice> delete(long id) throws SQLException;
+
+  Optional<Invoice> delete();
 
   Optional<Invoice> delete(int id);
 
@@ -31,5 +44,7 @@ public interface Database {
         .reduce(BigDecimal.ZERO, BigDecimal::add);
   }
 
+  default void reset() {
+    getAll().forEach(invoice -> delete(invoice.getId()));
+  }
 }
-

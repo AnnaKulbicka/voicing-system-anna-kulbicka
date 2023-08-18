@@ -2,6 +2,7 @@ package pl.futurecollars.invoicing.service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.function.Predicate;
 import lombok.AllArgsConstructor;
@@ -18,19 +19,19 @@ public class TaxCalculatorService {
 
   private final Database database;
 
-  public BigDecimal income(String taxIdentificationNumber) {
+  public BigDecimal income(String taxIdentificationNumber) throws SQLException {
     return database.visit(sellerPredicate(taxIdentificationNumber), InvoiceEntry::getNetPrice);
   }
 
-  public BigDecimal costs(String taxIdentificationNumber) {
+  public BigDecimal costs(String taxIdentificationNumber) throws SQLException {
     return database.visit(buyerPredicate(taxIdentificationNumber), this::getIncomeValueTakingIntoConsiderationPersonalCarUsage);
   }
 
-  public BigDecimal collectedVat(String taxIdentificationNumber) {
+  public BigDecimal collectedVat(String taxIdentificationNumber) throws SQLException {
     return database.visit(sellerPredicate(taxIdentificationNumber), InvoiceEntry::getVatValue);
   }
 
-  public BigDecimal paidVat(String taxIdentificationNumber) {
+  public BigDecimal paidVat(String taxIdentificationNumber) throws SQLException {
     return database.visit(buyerPredicate(taxIdentificationNumber), this::getVatValueTakingIntoConsiderationPersonalCarUsage);
   }
 
@@ -50,15 +51,15 @@ public class TaxCalculatorService {
         .subtract(getVatValueTakingIntoConsiderationPersonalCarUsage(invoiceEntry));
   }
 
-  public BigDecimal getEarnings(String taxIdentificationNumber) {
+  public BigDecimal getEarnings(String taxIdentificationNumber) throws SQLException {
     return income(taxIdentificationNumber).subtract(costs(taxIdentificationNumber));
   }
 
-  public BigDecimal getVatToReturn(String taxIdentificationNumber) {
+  public BigDecimal getVatToReturn(String taxIdentificationNumber) throws SQLException {
     return collectedVat(taxIdentificationNumber).subtract(paidVat(taxIdentificationNumber));
   }
 
-  public TaxCalculatorResult calculateTaxes(Company company) {
+  public TaxCalculatorResult calculateTaxes(Company company) throws SQLException {
     String taxIdentificationNumber = company.getTaxIdentificationNumber();
 
     BigDecimal incomeMinusCosts = getEarnings(taxIdentificationNumber);
