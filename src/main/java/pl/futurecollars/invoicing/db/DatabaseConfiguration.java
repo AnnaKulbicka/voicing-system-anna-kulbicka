@@ -10,7 +10,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import pl.futurecollars.invoicing.db.file.FileBasedDatabase;
-import pl.futurecollars.invoicing.db.file.IdService;
+import pl.futurecollars.invoicing.db.file.IdProvider;
+import pl.futurecollars.invoicing.db.jpa.InvoiceRepository;
+import pl.futurecollars.invoicing.db.jpa.JpaDatabase;
 import pl.futurecollars.invoicing.db.memory.InMemoryDatabase;
 import pl.futurecollars.invoicing.db.sql.SqlDatabase;
 import pl.futurecollars.invoicing.utils.FilesService;
@@ -22,32 +24,38 @@ public class DatabaseConfiguration {
 
   @Bean
   @ConditionalOnProperty(name = "invoicing-system.database", havingValue = "file")
-  public IdService idProvider(
+  public IdProvider idService(
       FilesService filesService,
       @Value("${invoicing-system.database.directory}") String databaseDirectory,
       @Value("${invoicing-system.database.id.file}") String idFile
   ) throws IOException {
     Path idFilePath = Files.createTempFile(databaseDirectory, idFile);
-    return new IdService(idFilePath, filesService);
+    return new IdProvider(idFilePath, filesService);
   }
 
   @Bean
   @ConditionalOnProperty(name = "invoicing-system.database", havingValue = "file")
   public Database fileBasedDatabase(
-      IdService idProvider,
+      IdProvider idService,
       FilesService filesService,
       JsonService jsonService,
       @Value("${invoicing-system.database.directory}") String databaseDirectory,
       @Value("${invoicing-system.database.invoices.file}") String invoicesFile
   ) throws IOException {
     Path databaseFilePath = Files.createTempFile(databaseDirectory, invoicesFile);
-    return new FileBasedDatabase(databaseFilePath, idProvider, filesService, jsonService);
+    return new FileBasedDatabase(databaseFilePath, idService, filesService, jsonService);
   }
 
   @Bean
   @ConditionalOnProperty(name = "invoicing-system.database", havingValue = "sql")
   public Database sqlDatabase(JdbcTemplate jdbcTemplate) {
     return new SqlDatabase(jdbcTemplate);
+  }
+
+  @Bean
+  @ConditionalOnProperty(name = "invoicing-system.database", havingValue = "jpa")
+  public Database jpaDatabase(InvoiceRepository invoiceRepository) {
+    return new JpaDatabase();
   }
 
   @Bean

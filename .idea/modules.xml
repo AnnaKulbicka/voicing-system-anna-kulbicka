@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Anna.voicing-system-anna-kulbicka.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Anna.voicing-system-anna-kulbicka.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Desktop.voicing-system-anna-kulbicka.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Desktop.voicing-system-anna-kulbicka.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/IdeaProjects.voicing-system-anna-kulbicka.main.iml" filepath="$PROJECT_DIR$/.idea/modules/IdeaProjects.voicing-system-anna-kulbicka.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/invoicing-system-anna-kulbicka.main.iml" filepath="$PROJECT_DIR$/.idea/modules/invoicing-system-anna-kulbicka.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/pl.futurecollars.voicing-system-anna-kulbicka.main.iml" filepath="$PROJECT_DIR$/.idea/modules/pl.futurecollars.voicing-system-anna-kulbicka.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/voicing-system-anna-kulbicka.main.iml" filepath="$PROJECT_DIR$/.idea/modules/voicing-system-anna-kulbicka.main.iml" />
     </modules>

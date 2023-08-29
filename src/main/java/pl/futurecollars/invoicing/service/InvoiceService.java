@@ -16,23 +16,23 @@ public class InvoiceService {
     this.database = database;
   }
 
-  public int save(Invoice invoice) {
-    return (int) database.save(invoice);
+  public long save(Invoice invoice) {
+    return database.save(invoice);
   }
 
-  public Optional<Invoice> getById(int id) {
+  public Optional<Invoice> getById(long id) throws SQLException {
     return database.getById(id);
   }
 
-  public List<Invoice> getAll() throws SQLException {
+  public List<Invoice> getAll() {
     return database.getAll();
   }
 
-  public Optional<Invoice> update(int id, Invoice updatedInvoice) {
+  public Optional<Invoice> update(long id, Invoice updatedInvoice) throws SQLException {
     return database.update(id, updatedInvoice);
   }
 
-  public Optional<Invoice> delete(int id) {
+  public Optional<Invoice> delete(long id) throws SQLException {
     return database.delete(id);
   }
 

@@ -22,6 +22,7 @@ public class TaxCalculatorResult {
   private final BigDecimal healthInsuranceToSubtract;
   private final BigDecimal incomeTaxMinusHealthInsurance;
   private final BigDecimal finalIncomeTax;
+
   private final BigDecimal collectedVat;
   private final BigDecimal paidVat;
   private final BigDecimal vatToReturn;

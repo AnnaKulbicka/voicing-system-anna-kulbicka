@@ -27,21 +27,21 @@ public class InvoiceController implements InvoiceApi {
   }
 
   @Override
-  public ResponseEntity<Invoice> getById(@PathVariable int id) {
+  public ResponseEntity<Invoice> getById(@PathVariable int id) throws SQLException {
     return invoiceService.getById(id)
         .map(invoice -> ResponseEntity.ok().body(invoice))
         .orElse(ResponseEntity.notFound().build());
   }
 
   @Override
-  public ResponseEntity<?> deleteById(@PathVariable int id) {
+  public ResponseEntity<?> deleteById(@PathVariable int id) throws SQLException {
     return invoiceService.delete(id)
         .map(name -> ResponseEntity.noContent().build())
         .orElse(ResponseEntity.notFound().build());
   }
 
   @Override
-  public ResponseEntity<?> update(@PathVariable int id, @RequestBody Invoice invoice) {
+  public ResponseEntity<?> update(@PathVariable int id, @RequestBody Invoice invoice) throws SQLException {
     return invoiceService.update(id, invoice)
         .map(name -> ResponseEntity.noContent().build())
         .orElse(ResponseEntity.notFound().build());

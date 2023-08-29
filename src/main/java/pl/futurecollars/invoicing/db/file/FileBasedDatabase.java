@@ -19,14 +19,14 @@ import pl.futurecollars.invoicing.utils.JsonService;
 public class FileBasedDatabase implements Database {
 
   private final Path databasePath;
-  private final IdService idProvider;
+  private final IdProvider idProvider;
   private final FilesService filesService;
   private final JsonService jsonService;
 
   @Override
   public long save(Invoice invoice) {
     try {
-      invoice.setId((int) idProvider.getNextIdAndIncrement());
+      invoice.setId(idProvider.getNextIdAndIncrement());
       filesService.appendLineToFile(databasePath, jsonService.toJson(invoice));
 
       return invoice.getId();
@@ -72,7 +72,7 @@ public class FileBasedDatabase implements Database {
           .filter(line -> !containsId(line, id))
           .collect(Collectors.toList());
 
-      updatedInvoice.setId((int) id);
+      updatedInvoice.setId(id);
       invoicesWithoutInvoiceWithGivenId.add(jsonService.toJson(updatedInvoice));
 
       filesService.writeLinesToFile(databasePath, invoicesWithoutInvoiceWithGivenId);
@@ -140,4 +140,5 @@ public class FileBasedDatabase implements Database {
   private boolean containsId(String line, long id) {
     return line.contains("{\"id\":" + id + ",\"number\"");
   }
+
 }

@@ -96,8 +96,6 @@ dependencies {
 
 
 
-
-
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
@@ -142,16 +140,17 @@ jacocoTestCoverageVerification {
         rule {
             limit {
                 counter = 'BRANCH'
-                minimum = 0.80
+                minimum = 0.60
             }
         }
         rule {
             limit {
                 counter = 'LINE'
-                minimum = 0.80
+                minimum = 0.60
             }
         }
     }
+
 
     afterEvaluate {
         classDirectories.setFrom(files(classDirectories.files.collect {

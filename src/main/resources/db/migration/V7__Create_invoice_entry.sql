@@ -5,14 +5,14 @@ CREATE TABLE public.invoice_entry
     quantity               numeric(10, 2) NOT NULL DEFAULT 1,
     net_price              numeric(10, 2) NOT NULL,
     vat_value              numeric(10, 2) NOT NULL,
-    vat_rate               bigint         NOT NULL,
+    vat_rate               character varying(50)         NOT NULL,
     expense_related_to_car bigint,
     PRIMARY KEY (id)
 );
 
 ALTER TABLE public.invoice_entry
     ADD CONSTRAINT vat_rate_fk FOREIGN KEY (vat_rate)
-        REFERENCES public.vat (id);
+        REFERENCES public.vat (name);
 
 ALTER TABLE public.invoice_entry
     ADD CONSTRAINT car_fk FOREIGN KEY (expense_related_to_car)

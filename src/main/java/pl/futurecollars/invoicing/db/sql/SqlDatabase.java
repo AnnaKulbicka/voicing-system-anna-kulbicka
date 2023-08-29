@@ -1,14 +1,10 @@
 package pl.futurecollars.invoicing.db.sql;
 
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.PreparedStatement;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import javax.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -34,20 +30,6 @@ public class SqlDatabase implements Database {
       + "inner join company c2 on i.buyer = c2.id";
   private final JdbcTemplate jdbcTemplate;
 
-  private final Map<Vat, Integer> vatToId = new HashMap<>();
-  private final Map<Integer, Vat> idToVat = new HashMap<>();
-
-  @PostConstruct
-  void initVatRatesMap() { // default so it can be called from SqlDatabaseIntegrationTest
-    jdbcTemplate.query("select * from vat",
-        rs -> {
-          Vat vat = Vat.valueOf("VAT_" + rs.getString("name"));
-          int id = rs.getInt("id");
-          vatToId.put(vat, id);
-          idToVat.put(id, vat);
-        });
-  }
-
   @Override
   @Transactional
   public long save(Invoice invoice) {
@@ -66,15 +48,15 @@ public class SqlDatabase implements Database {
   }
 
   @Override
-  public Optional<Invoice> getById(int id) {
-    return Optional.empty();
-  }
-
-  @Override
   public Optional<Invoice> getById(long id) {
     List<Invoice> invoices = jdbcTemplate.query(SELECT_QUERY + " where i.id = " + id, invoiceRowMapper());
 
     return invoices.isEmpty() ? Optional.empty() : Optional.of(invoices.get(0));
+  }
+
+  @Override
+  public Optional<Invoice> getById(int id) {
+    return Optional.empty();
   }
 
   private int insertInvoice(Invoice invoice, int buyerId, int sellerId) {
@@ -89,8 +71,7 @@ public class SqlDatabase implements Database {
       return ps;
     }, keyHolder);
 
-    int invoiceId = Objects.requireNonNull(keyHolder.getKey()).intValue();
-    return invoiceId;
+    return Objects.requireNonNull(keyHolder.getKey()).intValue();
   }
 
   private int insertCompany(Company buyer) {
@@ -146,6 +127,7 @@ public class SqlDatabase implements Database {
               + "where invoice_id = " + invoiceId,
           (response, ignored) -> InvoiceEntry.builder()
               .description(response.getString("description"))
+              .quantity(response.getBigDecimal("quantity"))
               .netPrice(response.getBigDecimal("net_price"))
               .vatValue(response.getBigDecimal("vat_value"))
               .vatRate(Vat.valueOf(response.getString("vat_rate")))
@@ -158,11 +140,11 @@ public class SqlDatabase implements Database {
               .build());
 
       return Invoice.builder()
-          .id((int) rs.getLong("id"))
+          .id(rs.getLong("id"))
           .date(rs.getDate("date").toLocalDate())
           .number(rs.getString("number"))
           .buyer(Company.builder()
-              .id((int) rs.getLong("buyer_id"))
+              .id(rs.getLong("buyer_id"))
               .taxIdentificationNumber(rs.getString("buyer_tax_id"))
               .name(rs.getString("buyer_name"))
               .address(rs.getString("buyer_address"))
@@ -171,7 +153,7 @@ public class SqlDatabase implements Database {
               .build()
           )
           .seller(Company.builder()
-              .id((int) rs.getLong("seller_id"))
+              .id(rs.getLong("seller_id"))
               .taxIdentificationNumber(rs.getString("seller_tax_id"))
               .name(rs.getString("seller_name"))
               .address(rs.getString("seller_address"))
@@ -257,7 +239,7 @@ public class SqlDatabase implements Database {
                     + "values (?, ?, ?, ?, ?, ?);",
                 new String[] {"id"});
         ps.setString(1, entry.getDescription());
-        ps.setBigDecimal(2, BigDecimal.valueOf(entry.getQuantity()));
+        ps.setBigDecimal(2, entry.getQuantity());
         ps.setBigDecimal(3, entry.getNetPrice());
         ps.setBigDecimal(4, entry.getVatValue());
         ps.setString(5, entry.getVatRate().name());

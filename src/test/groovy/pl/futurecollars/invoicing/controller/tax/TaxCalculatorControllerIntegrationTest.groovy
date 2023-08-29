@@ -112,7 +112,8 @@ class TaxCalculatorControllerIntegrationTest extends AbstractControllerTest {
 
     def "tax is calculated correctly when car is used for personal purposes"() {
         given:
-        def invoice = Invoice.builder()
+        def invoice
+        invoice = Invoice.builder()
             .date(LocalDate.now())
             .number("no number :)")
             .seller(company(1))

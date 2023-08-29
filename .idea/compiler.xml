@@ -15,7 +15,6 @@
         <processorPath useClasspath="false">
           <entry name="$USER_HOME$/IdeaProjects/voicing-system-anna-kulbicka/.gradle/8.0/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.22/9c08ea24c6eb714e2d6170e8122c069a0ba9aacf/lombok-1.18.22.jar" />
         </processorPath>
-        <module name="voicing-system-anna-kulbicka.test" />
         <module name="pl.futurecollars.voicing-system-anna-kulbicka.main" />
       </profile>
       <profile name="Gradle Imported" enabled="true">
@@ -23,8 +22,8 @@
         <processorPath useClasspath="false">
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.22/9c08ea24c6eb714e2d6170e8122c069a0ba9aacf/lombok-1.18.22.jar" />
         </processorPath>
-        <module name="voicing-system-anna-kulbicka.test" />
-        <module name="Desktop.voicing-system-anna-kulbicka.main" />
+        <module name="invoicing-system-anna-kulbicka.main" />
+        <module name="invoicing-system-anna-kulbicka.test" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="15" />

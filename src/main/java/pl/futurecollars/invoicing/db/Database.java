@@ -27,7 +27,7 @@ public interface Database {
 
   Optional<Invoice> update(int id, Invoice updatedInvoice);
 
-  Optional<Invoice> delete(long id) throws SQLException;
+  Optional<Invoice> delete(long id);
 
   Optional<Invoice> delete();
 
