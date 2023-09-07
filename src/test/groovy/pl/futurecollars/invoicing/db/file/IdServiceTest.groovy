@@ -6,7 +6,7 @@ import spock.lang.Specification
 import java.nio.file.Files
 import java.nio.file.Path
 
-class IdServiceTest extends Specification {
+class IdProviderTest extends Specification {
 
     private final Path nextIdDbPath = File.createTempFile('nextId', '.txt').toPath()
 

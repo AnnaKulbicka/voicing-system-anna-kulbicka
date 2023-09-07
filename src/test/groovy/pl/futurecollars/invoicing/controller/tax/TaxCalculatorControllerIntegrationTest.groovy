@@ -112,8 +112,7 @@ class TaxCalculatorControllerIntegrationTest extends AbstractControllerTest {
 
     def "tax is calculated correctly when car is used for personal purposes"() {
         given:
-        def invoice
-        invoice = Invoice.builder()
+        def invoice = Invoice.builder()
             .date(LocalDate.now())
             .number("no number :)")
             .seller(company(1))
@@ -123,7 +122,6 @@ class TaxCalculatorControllerIntegrationTest extends AbstractControllerTest {
                     .vatValue(BigDecimal.valueOf(23.45))
                     .vatRate(Vat.VAT_23)
                     .netPrice(BigDecimal.valueOf(100))
-                    .quantity(1.0)
                     .expenseRelatedToCar(
                         Car.builder()
                             .personalUse(true)
@@ -182,14 +180,12 @@ class TaxCalculatorControllerIntegrationTest extends AbstractControllerTest {
                 InvoiceEntry.builder()
                     .netPrice(76011.62)
                     .vatValue(0.0)
-                    .quantity(1.0)
                     .vatRate(Vat.VAT_0)
                     .build()
             ))
             .build()
 
-        def invoiceWithCosts
-        invoiceWithCosts = Invoice.builder()
+        def invoiceWithCosts = Invoice.builder()
             .date(LocalDate.now())
             .number("number is required")
             .seller(company(4))
@@ -198,7 +194,6 @@ class TaxCalculatorControllerIntegrationTest extends AbstractControllerTest {
                 InvoiceEntry.builder()
                     .netPrice(11329.47)
                     .vatValue(0.0)
-                    .quantity(1.0)
                     .vatRate(Vat.VAT_ZW)
                     .build()
             ))

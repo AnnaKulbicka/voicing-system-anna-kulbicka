@@ -26,7 +26,7 @@ public class FileBasedDatabase implements Database {
   @Override
   public long save(Invoice invoice) {
     try {
-      invoice.setId(idProvider.getNextIdAndIncrement());
+      invoice.setId((int) idProvider.getNextIdAndIncrement());
       filesService.appendLineToFile(databasePath, jsonService.toJson(invoice));
 
       return invoice.getId();
@@ -72,7 +72,7 @@ public class FileBasedDatabase implements Database {
           .filter(line -> !containsId(line, id))
           .collect(Collectors.toList());
 
-      updatedInvoice.setId(id);
+      updatedInvoice.setId((int) id);
       invoicesWithoutInvoiceWithGivenId.add(jsonService.toJson(updatedInvoice));
 
       filesService.writeLinesToFile(databasePath, invoicesWithoutInvoiceWithGivenId);

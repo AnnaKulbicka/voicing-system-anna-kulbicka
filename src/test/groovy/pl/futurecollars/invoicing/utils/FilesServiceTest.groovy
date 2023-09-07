@@ -7,8 +7,8 @@ import java.nio.file.Path
 
 class FilesServiceTest extends Specification {
 
-    private FilesService filesService = new FilesService()
-    private Path path = File.createTempFile('lines', '.txt').toPath()
+    private final FilesService filesService = new FilesService()
+    private final Path path = File.createTempFile('lines', '.txt').toPath()
 
     def "line is correctly appended to file"() {
         setup:
@@ -54,7 +54,6 @@ class FilesServiceTest extends Specification {
 
         expect:
         [] == Files.readAllLines(path)
-
 
         when:
         filesService.writeLinesToFile(path, digits)

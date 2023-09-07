@@ -47,4 +47,5 @@ public interface Database {
   default void reset() {
     getAll().forEach(invoice -> delete(invoice.getId()));
   }
+
 }
