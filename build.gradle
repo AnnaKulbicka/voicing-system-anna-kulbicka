@@ -39,7 +39,7 @@ plugins {
 
 group = 'pl.futurecollars'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '15'
+sourceCompatibility = '14'
 
 repositories {
     // Use Maven Central for resolving dependencies.
@@ -48,7 +48,7 @@ repositories {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(15)
+        languageVersion = JavaLanguageVersion.of(14)
         vendor = JvmVendorSpec.ADOPTOPENJDK
 
     }
@@ -135,9 +135,5 @@ jacocoTestCoverageVerification {
         }
     }
 
-    afterEvaluate {
-        classDirectories.setFrom(files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: ['pl/futurecollars/invoicing/InvoiceApplication.class', 'pl/futurecollars/invoicing/db/DatabaseConfiguration.class'])
-        }))
+
     }
-}
