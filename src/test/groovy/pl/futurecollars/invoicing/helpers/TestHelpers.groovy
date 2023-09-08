@@ -12,7 +12,7 @@ class TestHelpers {
     static company(int id) {
         Company.builder()
             .taxIdentificationNumber("$id")
-            .address("ul. Bukowinska 24d/$id 02-703 Warszawa, Polska")
+            .address("ul. Bukowinska 24d/$id 02-703 warszawa, Polska")
             .name("iCode Trust $id Sp. z o.o")
             .pensionInsurance((BigDecimal.TEN * BigDecimal.valueOf(id)).setScale(2))
             .healthInsurance((BigDecimal.valueOf(100) * BigDecimal.valueOf(id)).setScale(2))
