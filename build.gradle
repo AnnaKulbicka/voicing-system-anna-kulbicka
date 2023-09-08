@@ -34,6 +34,8 @@ plugins {
 
     id 'java'
 
+
+
 }
 
 group = 'pl.futurecollars'
