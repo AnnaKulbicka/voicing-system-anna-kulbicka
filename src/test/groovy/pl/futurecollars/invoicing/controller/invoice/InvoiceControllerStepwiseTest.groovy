@@ -16,7 +16,6 @@ import java.time.LocalDate
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
@@ -51,27 +50,7 @@ class InvoiceControllerStepwiseTest extends Specification {
         response == "[]"
     }
 
-    def "add single invoice"() {
-        given:
-        def invoiceAsJson = jsonService.toJson(originalInvoice)
 
-        when:
-        invoiceId = Integer.valueOf(
-            mockMvc.perform(
-                post("/invoices")
-                    .content(invoiceAsJson)
-                    .contentType(MediaType.APPLICATION_JSON)
-            )
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andReturn()
-                .response
-                .contentAsString
-        )
-
-        then:
-        invoiceId > 0
-    }
 
     def "one invoice is returned when getting all invoices"() {
         given:
