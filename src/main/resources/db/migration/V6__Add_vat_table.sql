@@ -1,9 +1,9 @@
 CREATE TABLE public.vat
 (
-    id   bigserial     NOT NULL,
+
     name character varying(20),
     rate numeric(3, 2) NOT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (name)
 );
 
 insert into public.vat (name, rate)

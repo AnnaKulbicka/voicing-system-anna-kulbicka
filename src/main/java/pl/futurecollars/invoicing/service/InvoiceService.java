@@ -1,5 +1,6 @@
 package pl.futurecollars.invoicing.service;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -15,11 +16,11 @@ public class InvoiceService {
     this.database = database;
   }
 
-  public int save(Invoice invoice) {
+  public long save(Invoice invoice) {
     return database.save(invoice);
   }
 
-  public Optional<Invoice> getById(int id) {
+  public Optional<Invoice> getById(long id) throws SQLException {
     return database.getById(id);
   }
 
@@ -27,11 +28,11 @@ public class InvoiceService {
     return database.getAll();
   }
 
-  public Optional<Invoice> update(int id, Invoice updatedInvoice) {
+  public Optional<Invoice> update(long id, Invoice updatedInvoice) throws SQLException {
     return database.update(id, updatedInvoice);
   }
 
-  public Optional<Invoice> delete(int id) {
+  public Optional<Invoice> delete(long id) throws SQLException {
     return database.delete(id);
   }
 

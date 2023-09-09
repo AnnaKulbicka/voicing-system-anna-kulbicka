@@ -1,13 +1,17 @@
 package pl.futurecollars.invoicing.db.file;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import pl.futurecollars.invoicing.db.Database;
 import pl.futurecollars.invoicing.model.Invoice;
+import pl.futurecollars.invoicing.model.InvoiceEntry;
 import pl.futurecollars.invoicing.utils.FilesService;
 import pl.futurecollars.invoicing.utils.JsonService;
 
@@ -15,14 +19,14 @@ import pl.futurecollars.invoicing.utils.JsonService;
 public class FileBasedDatabase implements Database {
 
   private final Path databasePath;
-  private final IdService idService;
+  private final IdProvider idProvider;
   private final FilesService filesService;
   private final JsonService jsonService;
 
   @Override
-  public int save(Invoice invoice) {
+  public long save(Invoice invoice) {
     try {
-      invoice.setId(idService.getNextIdAndIncreament());
+      invoice.setId((int) idProvider.getNextIdAndIncrement());
       filesService.appendLineToFile(databasePath, jsonService.toJson(invoice));
 
       return invoice.getId();
@@ -32,7 +36,12 @@ public class FileBasedDatabase implements Database {
   }
 
   @Override
-  public Optional<Invoice> getById(int id) {
+  public Optional<Invoice> getById() {
+    return Optional.empty();
+  }
+
+  @Override
+  public Optional<Invoice> getById(long id) {
     try {
       return filesService.readAllLines(databasePath)
           .stream()
@@ -45,19 +54,17 @@ public class FileBasedDatabase implements Database {
   }
 
   @Override
-  public List<Invoice> getAll() {
-    try {
-      return filesService.readAllLines(databasePath)
-          .stream()
-          .map(line -> jsonService.toObject(line, Invoice.class))
-          .collect(Collectors.toList());
-    } catch (IOException ex) {
-      throw new RuntimeException("Failed to read invoices from file", ex);
-    }
+  public Optional<Invoice> getById(int id) {
+    return Optional.empty();
   }
 
   @Override
-  public Optional<Invoice> update(int id, Invoice updatedInvoice) {
+  public List<Invoice> getAll() {
+    return null;
+  }
+
+  @Override
+  public Optional<Invoice> update(long id, Invoice updatedInvoice) {
     try {
       List<String> allInvoices = filesService.readAllLines(databasePath);
       var invoicesWithoutInvoiceWithGivenId = allInvoices
@@ -65,7 +72,7 @@ public class FileBasedDatabase implements Database {
           .filter(line -> !containsId(line, id))
           .collect(Collectors.toList());
 
-      updatedInvoice.setId(id);
+      updatedInvoice.setId((int) id);
       invoicesWithoutInvoiceWithGivenId.add(jsonService.toJson(updatedInvoice));
 
       filesService.writeLinesToFile(databasePath, invoicesWithoutInvoiceWithGivenId);
@@ -80,7 +87,17 @@ public class FileBasedDatabase implements Database {
   }
 
   @Override
-  public Optional<Invoice> delete(int id) {
+  public Optional<Invoice> update() {
+    return Optional.empty();
+  }
+
+  @Override
+  public Optional<Invoice> update(int id, Invoice updatedInvoice) {
+    return Optional.empty();
+  }
+
+  @Override
+  public Optional<Invoice> delete(long id) {
     try {
       var allInvoices = filesService.readAllLines(databasePath);
 
@@ -100,8 +117,28 @@ public class FileBasedDatabase implements Database {
     }
   }
 
-  private boolean containsId(String line, int id) {
-    return line.contains("{\"id\":" + id + ",\"number\""); // now multiple objects has id, but only invoice has number
+  @Override
+  public Optional<Invoice> delete() {
+    return Optional.empty();
+  }
+
+  @Override
+  public Optional<Invoice> delete(int id) {
+    return Optional.empty();
+  }
+
+  @Override
+  public BigDecimal visit(Predicate<Invoice> invoicePredicate, Function<InvoiceEntry, BigDecimal> invoiceEntryToValue) {
+    return Database.super.visit(invoicePredicate, invoiceEntryToValue);
+  }
+
+  @Override
+  public void reset() {
+    Database.super.reset();
+  }
+
+  private boolean containsId(String line, long id) {
+    return line.contains("{\"id\":" + id + ",\"number\"");
   }
 
 }

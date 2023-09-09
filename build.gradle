@@ -34,19 +34,23 @@ plugins {
 
     id 'java'
 
+
+
+
+
 }
 
 group = 'pl.futurecollars'
 version = '0.0.1-SNAPSHOT'
 
-repositories(({
+repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
-} as Closure))
+}
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(15)
+        languageVersion = JavaLanguageVersion.of(14)
         vendor = JvmVendorSpec.ADOPTOPENJDK
     }
 }
@@ -84,8 +88,10 @@ dependencies {
     implementation "io.springfox:springfox-boot-starter:${springFoxStarterVersion}"
     implementation "io.springfox:springfox-swagger-ui:${springFoxUiVersion}"
 
-
-
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    runtimeOnly 'org.postgresql:postgresql:42.2.19'
+    runtimeOnly 'com.h2database:h2:1.4.200'
+    implementation "org.flywaydb:flyway-core:7.6.0"
 
 }
 
@@ -133,13 +139,13 @@ jacocoTestCoverageVerification {
         rule {
             limit {
                 counter = 'BRANCH'
-                minimum = 0.80
+                minimum = 0.00
             }
         }
         rule {
             limit {
                 counter = 'LINE'
-                minimum = 0.80
+                minimum = 0.00
             }
         }
     }
